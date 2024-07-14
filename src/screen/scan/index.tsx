@@ -1,5 +1,5 @@
 // src/screens/ScanScreen.js
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,21 +7,52 @@ import {
   TouchableOpacity,
   Modal,
   SafeAreaView,
+  Animated,
+  Easing,
 } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const ScanScreen = ({ navigation }) => {
-  const [scanning, setScanning] = useState(true);
-  const [scannedData, setScannedData] = useState(null);
+  const [scanning, setScanning] = useState(false);
+  const [scannedData, setScannedData] = useState<any>({
+    nom:"anto ndong",
+    email:"anto@gigig",
+    telephon:"7777777"
+  });
   const cameraRef = useRef(null);
+  const modalAnimation = useRef(new Animated.Value(0)).current;
+  const iconAnimation = useRef(new Animated.Value(0)).current;
 
   const onBarCodeRead = (scanResult) => {
-    if (scanning) {
+    if (!scanning) {
       setScanning(false);
-      setScannedData(JSON.parse(scanResult.data));
+      setScannedData({
+        nom:"anto ndong",
+        email:"anto@gigig",
+        telephon:"7777777"
+      });
     }
   };
+
+  useEffect(() => {
+    if (!scanning) {
+      Animated.parallel([
+        Animated.timing(modalAnimation, {
+          toValue: 1,
+          duration: 300,
+          useNativeDriver: true,
+          easing: Easing.out(Easing.cubic),
+        }),
+        Animated.timing(iconAnimation, {
+          toValue: 1,
+          duration: 500,
+          useNativeDriver: true,
+          easing: Easing.out(Easing.back(1.5)),
+        }),
+      ]).start();
+    }
+  }, [scanning]);
 
   const handleConfirm = () => {
     // TODO: Implement confirmation logic
@@ -30,9 +61,34 @@ const ScanScreen = ({ navigation }) => {
   };
 
   const handleCancel = () => {
-    setScanning(true);
-    setScannedData(null);
+    Animated.parallel([
+      Animated.timing(modalAnimation, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: true,
+        easing: Easing.in(Easing.cubic),
+      }),
+      Animated.timing(iconAnimation, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: true,
+        easing: Easing.in(Easing.cubic),
+      }),
+    ]).start(() => {
+      setScanning(true);
+      setScannedData(null);
+    });
   };
+
+  const modalTranslateY = modalAnimation.interpolate({
+    inputRange: [0, 1],
+    outputRange: [300, 0],
+  });
+
+  const iconScale = iconAnimation.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0.5, 1],
+  });
 
   return (
     <View style={styles.container}>
@@ -52,13 +108,21 @@ const ScanScreen = ({ navigation }) => {
       </RNCamera>
 
       <Modal
-        animationType="slide"
+        animationType="none"
         transparent={true}
         visible={!scanning}
         onRequestClose={handleCancel}
       >
         <SafeAreaView style={styles.modalContainer}>
-          <View style={styles.modalContent}>
+          <Animated.View 
+            style={[
+              styles.modalContent,
+              { transform: [{ translateY: modalTranslateY }] }
+            ]}
+          >
+            <Animated.View style={[styles.iconContainer, { transform: [{ scale: iconScale }] }]}>
+              <Icon name="check-circle" size={60} color="#4CAF50" />
+            </Animated.View>
             <Text style={styles.modalTitle}>Information scannée</Text>
             {scannedData && (
               <View style={styles.scannedInfo}>
@@ -69,13 +133,13 @@ const ScanScreen = ({ navigation }) => {
             )}
             <View style={styles.buttonContainer}>
               <TouchableOpacity style={[styles.button, styles.cancelButton]} onPress={handleCancel}>
-                <Text style={styles.buttonText}>Annuler</Text>
+                <Text style={[styles.buttonText, styles.cancelButtonText]}>Annuler</Text>
               </TouchableOpacity>
               <TouchableOpacity style={[styles.button, styles.confirmButton]} onPress={handleConfirm}>
-                <Text style={styles.buttonText}>Confirmer</Text>
+                <Text style={[styles.buttonText, styles.confirmButtonText]}>Confirmer</Text>
               </TouchableOpacity>
             </View>
-          </View>
+          </Animated.View>
         </SafeAreaView>
       </Modal>
     </View>
@@ -132,6 +196,10 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     padding: 24,
+    alignItems: 'center',
+  },
+  iconContainer: {
+    marginBottom: 16,
   },
   modalTitle: {
     fontSize: 22,
@@ -140,6 +208,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   scannedInfo: {
+    width: '100%',
     marginBottom: 24,
   },
   infoRow: {
@@ -162,6 +231,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    width: '100%',
   },
   button: {
     flex: 1,
@@ -180,6 +250,12 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 16,
     fontWeight: '600',
+  },
+  cancelButtonText: {
+    color: '#007AFF',
+  },
+  confirmButtonText: {
+    color: '#FFFFFF',
   },
 });
 
