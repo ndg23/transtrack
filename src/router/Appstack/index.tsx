@@ -1,4 +1,4 @@
-// App.js
+// AppStack.js
 import React from 'react';
 import { NavigationContainer, } from '@react-navigation/native';
 import HomeScreen from '../../screen/home';
@@ -8,7 +8,7 @@ import ScanScreen from '../../screen/scan';
 
 const Stack = createNativeStackNavigator();
 
-const App = () => {
+const AppStack = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -41,4 +41,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default AppStack;
