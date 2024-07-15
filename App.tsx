@@ -34,12 +34,10 @@ export default function App() {
             <ThemeProvider>
               <GestureHandlerRootView style={styles.container}>
                 <PaperProvider>
-                  <NavigationContainer>
                     <UserContextProvider>
                       <Routes />
                       <OfflineIndicator />
                     </UserContextProvider>
-                  </NavigationContainer>
                 </PaperProvider>
               </GestureHandlerRootView>
             </ThemeProvider>
