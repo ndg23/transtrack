@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Base server configuration
-const SERVER_LINK = '192.168.1.29';
+const SERVER_LINK = `${process.env.APP_URL_}`;
 const PORT=3002
 // const SERVER_LINK = '38.242.234.253';
 const server_centri = `${SERVER_LINK}:8008`;

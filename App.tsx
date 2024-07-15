@@ -21,17 +21,16 @@ import UserContextProvider from './src/context/user-context';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from './src/utils/queryclient';
 import Routes from './src/router';
+import {PaperProvider} from 'react-native-paper';
 
 
 export default function App() {
-  const [session, setSession] = useMMKVObject<any>('session', storage);
 
   return (
     <SafeAreaView style={styles.container}>
-      <AuthProvider>
+   <AuthProvider>
         <StatusProvider>
         <QueryClientProvider client={queryClient}>
-          <LanguageContextProvider>
             <ThemeProvider>
               <GestureHandlerRootView style={styles.container}>
                 <PaperProvider>
@@ -39,13 +38,11 @@ export default function App() {
                     <UserContextProvider>
                       <Routes />
                       <OfflineIndicator />
-                      <ModalPortal />
                     </UserContextProvider>
                   </NavigationContainer>
                 </PaperProvider>
               </GestureHandlerRootView>
             </ThemeProvider>
-          </LanguageContextProvider>
         </QueryClientProvider>
         </StatusProvider>
       </AuthProvider>

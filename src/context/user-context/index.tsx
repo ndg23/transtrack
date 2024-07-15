@@ -1,8 +1,7 @@
 import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
-import { UserService } from '../../../api/user.api';
-import { useAuthContext } from '../auth-context';
 import { useMMKVObject } from 'react-native-mmkv';
-import { storage } from '../../../..';
+import { storage } from '../../..';
+import { UserService } from '../../api/user.api';
 
 interface UserContextProviderProps {
   children: ReactNode;
