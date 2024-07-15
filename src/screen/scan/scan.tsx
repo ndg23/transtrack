@@ -13,7 +13,7 @@ import {
 import { RNCamera } from 'react-native-camera';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useQuery } from '@tanstack/react-query';
-import { UserService } from '../../api/user.api';
+import { fetchScannedData } from '../api/fetchScannedData'; // Adjust the path as needed
 
 const ScanScreen = ({ navigation }) => {
   const [scanning, setScanning] = useState(false);
@@ -24,7 +24,7 @@ const ScanScreen = ({ navigation }) => {
 
   const { data, error, refetch } = useQuery(
     ['scannedData', scannedData],
-    () => UserService.getUser(scannedData._id),
+    () => fetchScannedData(scannedData),
     { enabled: false }
   );
 

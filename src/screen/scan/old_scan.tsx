@@ -12,32 +12,31 @@ import {
 } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { useQuery } from '@tanstack/react-query';
-import { UserService } from '../../api/user.api';
 
 const ScanScreen = ({ navigation }) => {
   const [scanning, setScanning] = useState(false);
-  const [scannedData, setScannedData] = useState(null);
+  const [scannedData, setScannedData] = useState<any>({
+    nom:"anto ndong",
+    email:"anto@gigig",
+    telephon:"7777777"
+  });
   const cameraRef = useRef(null);
   const modalAnimation = useRef(new Animated.Value(0)).current;
   const iconAnimation = useRef(new Animated.Value(0)).current;
 
-  const { data, error, refetch } = useQuery(
-    ['scannedData', scannedData],
-    () => UserService.getUser(scannedData._id),
-    { enabled: false }
-  );
-
   const onBarCodeRead = (scanResult) => {
     if (!scanning) {
       setScanning(false);
-      setScannedData(scanResult.data); // Use the actual scan result data
-      refetch();
+      setScannedData({
+        nom:"anto ndong",
+        email:"anto@gigig",
+        telephon:"7777777"
+      });
     }
   };
 
   useEffect(() => {
-    if (!scanning && data) {
+    if (!scanning) {
       Animated.parallel([
         Animated.timing(modalAnimation, {
           toValue: 1,
@@ -53,11 +52,11 @@ const ScanScreen = ({ navigation }) => {
         }),
       ]).start();
     }
-  }, [scanning, data]);
+  }, [scanning]);
 
   const handleConfirm = () => {
     // TODO: Implement confirmation logic
-    console.log('Confirmed:', data);
+    console.log('Confirmed:', scannedData);
     navigation.goBack();
   };
 
@@ -104,14 +103,14 @@ const ScanScreen = ({ navigation }) => {
           <View style={styles.scanArea} />
         </View>
         <Text style={styles.instructions}>
-          Place the QR code within the frame
+          Placez le code QR dans le cadre
         </Text>
       </RNCamera>
 
       <Modal
         animationType="none"
         transparent={true}
-        visible={!scanning && data}
+        visible={!scanning}
         onRequestClose={handleCancel}
       >
         <SafeAreaView style={styles.modalContainer}>
@@ -124,20 +123,20 @@ const ScanScreen = ({ navigation }) => {
             <Animated.View style={[styles.iconContainer, { transform: [{ scale: iconScale }] }]}>
               <Icon name="check-circle" size={60} color="#4CAF50" />
             </Animated.View>
-            <Text style={styles.modalTitle}>Scanned Information</Text>
-            {data && (
+            <Text style={styles.modalTitle}>Information scannée</Text>
+            {scannedData && (
               <View style={styles.scannedInfo}>
-                <InfoRow icon="person" label="Name" value={data.nom} />
-                <InfoRow icon="email" label="Email" value={data.email} />
-                <InfoRow icon="phone" label="Phone" value={data.telephone} />
+                <InfoRow icon="person" label="Nom" value={scannedData.nom} />
+                <InfoRow icon="email" label="Email" value={scannedData.email} />
+                <InfoRow icon="phone" label="Téléphone" value={scannedData.telephone} />
               </View>
             )}
             <View style={styles.buttonContainer}>
               <TouchableOpacity style={[styles.button, styles.cancelButton]} onPress={handleCancel}>
-                <Text style={[styles.buttonText, styles.cancelButtonText]}>Cancel</Text>
+                <Text style={[styles.buttonText, styles.cancelButtonText]}>Annuler</Text>
               </TouchableOpacity>
               <TouchableOpacity style={[styles.button, styles.confirmButton]} onPress={handleConfirm}>
-                <Text style={[styles.buttonText, styles.confirmButtonText]}>Confirm</Text>
+                <Text style={[styles.buttonText, styles.confirmButtonText]}>Confirmer</Text>
               </TouchableOpacity>
             </View>
           </Animated.View>

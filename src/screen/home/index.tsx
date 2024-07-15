@@ -35,7 +35,7 @@ const HomeScreen = ({ navigation }) => {
           <Text style={styles.byCompany}>{`${APP_SUB_NAME}`}</Text>
         </View>
         <TouchableOpacity style={styles.iconButton}>
-          <Icon name="more-vert" size={34} style={{backgroundColor:"#eee",padding:10,borderRadius:60}} color="#333" />
+          <Icon name="more-vert" size={24} style={styles.iconBackground} color="#333" />
         </TouchableOpacity>
       </View>
       
@@ -43,7 +43,7 @@ const HomeScreen = ({ navigation }) => {
         <Icon name="search" size={20} color="#999" style={styles.searchIcon} />
         <TextInput
           style={styles.searchInput}
-          placeholder="Search attendees"
+          placeholder="Rechercher"
           placeholderTextColor="#999"
           value={searchQuery}
           onChangeText={setSearchQuery}
@@ -51,24 +51,32 @@ const HomeScreen = ({ navigation }) => {
       </View>
       
       <View style={styles.quickActions}>
+      <TouchableOpacity
+          style={styles.actionButton}
+          onPress={() => navigation.navigate('AddUser')}
+        >
+          <Icon name="person-add" size={34} style={styles.iconBackground} color="#007AFF" />
+          <Text style={styles.actionButtonText}>Ajouter</Text>
+        </TouchableOpacity>
+
         <TouchableOpacity
           style={styles.actionButton}
           onPress={() => navigation.navigate('Scan')}
         >
-          <Icon name="qr-code-scanner" size={34} style={{backgroundColor:"#eee",padding:10,borderRadius:60}} color="#007AFF" />
+          <Icon name="qr-code-scanner" size={34} style={styles.iconBackground} color="#007AFF" />
           <Text style={styles.actionButtonText}>Scanner</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.actionButton}
           onPress={() => navigation.navigate('History')}
         >
-          <Icon name="person-add" size={34} style={{backgroundColor:"#eee",padding:10,borderRadius:60}} color="#007AFF" />
-          <Text style={styles.actionButtonText}>Ajouter</Text>
+          <Icon name="person-add" size={34} style={styles.iconBackground} color="#007AFF" />
+          <Text style={styles.actionButtonText}>Historique</Text>
         </TouchableOpacity>
       </View>
       
       <View style={styles.listContainer}>
-        <Text style={styles.listTitle}>Dernieres réponses</Text>
+        <Text style={styles.listTitle}>Dernières réponses</Text>
         <FlatList
           data={DUMMY_DATA}
           renderItem={renderItem}
@@ -95,22 +103,26 @@ const styles = StyleSheet.create({
   },
   companyName: {
     fontSize: 24,
-    fontWeight: '600',
+    fontWeight: 'bold',
     color: '#333',
   },
   byCompany: {
     fontSize: 14,
-    fontStyle: 'italic',
-    color: '#999',
+    color: '#666',
     marginTop: 2,
   },
   iconButton: {
     padding: 8,
   },
+  iconBackground: {
+    backgroundColor: "#eee",
+    padding: 10,
+    borderRadius: 30,
+  },
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#f8f8f8',
+    backgroundColor: '#f0f0f0',
     borderRadius: 10,
     marginHorizontal: 20,
     marginVertical: 15,
@@ -132,7 +144,6 @@ const styles = StyleSheet.create({
   },
   actionButton: {
     alignItems: 'center',
-    
     padding: 10,
   },
   actionButtonText: {
@@ -146,7 +157,7 @@ const styles = StyleSheet.create({
   },
   listTitle: {
     fontSize: 18,
-    fontWeight: '600',
+    fontWeight: 'bold',
     color: '#333',
     marginBottom: 15,
   },
@@ -169,7 +180,7 @@ const styles = StyleSheet.create({
   avatarText: {
     color: '#007AFF',
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: 'bold',
   },
   listItemInfo: {
     flex: 1,
@@ -177,11 +188,10 @@ const styles = StyleSheet.create({
   listItemName: {
     fontSize: 16,
     color: '#333',
-    fontWeight: '500',
   },
   listItemTime: {
     fontSize: 14,
-    color: '#999',
+    color: '#666',
     marginTop: 2,
   },
 });
