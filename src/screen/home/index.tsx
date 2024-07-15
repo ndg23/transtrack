@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList, TextInput, SafeAreaView, StatusBar } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { APP_NAME, APP_SUB_NAME } from '../../../constant';
 
 const DUMMY_DATA = [
   { id: '1', name: 'John Doe', time: '08:30' },
@@ -30,11 +31,11 @@ const HomeScreen = ({ navigation }) => {
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
       <View style={styles.header}>
         <View>
-          <Text style={styles.companyName}>TransTrack</Text>
-          <Text style={styles.byCompany}>by Transpay</Text>
+          <Text style={styles.companyName}>{`${APP_NAME}`}</Text>
+          <Text style={styles.byCompany}>{`${APP_SUB_NAME}`}</Text>
         </View>
         <TouchableOpacity style={styles.iconButton}>
-          <Icon name="more-vert" size={24} color="#333" />
+          <Icon name="more-vert" size={34} style={{backgroundColor:"#eee",padding:10,borderRadius:60}} color="#333" />
         </TouchableOpacity>
       </View>
       
@@ -54,20 +55,20 @@ const HomeScreen = ({ navigation }) => {
           style={styles.actionButton}
           onPress={() => navigation.navigate('Scan')}
         >
-          <Icon name="qr-code-scanner" size={24} color="#007AFF" />
-          <Text style={styles.actionButtonText}>Scan</Text>
+          <Icon name="qr-code-scanner" size={34} style={{backgroundColor:"#eee",padding:10,borderRadius:60}} color="#007AFF" />
+          <Text style={styles.actionButtonText}>Scanner</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.actionButton}
-          onPress={() => navigation.navigate('Add')}
+          onPress={() => navigation.navigate('History')}
         >
-          <Icon name="person-add" size={24} color="#007AFF" />
-          <Text style={styles.actionButtonText}>Add</Text>
+          <Icon name="person-add" size={34} style={{backgroundColor:"#eee",padding:10,borderRadius:60}} color="#007AFF" />
+          <Text style={styles.actionButtonText}>Ajouter</Text>
         </TouchableOpacity>
       </View>
       
       <View style={styles.listContainer}>
-        <Text style={styles.listTitle}>Recent Attendances</Text>
+        <Text style={styles.listTitle}>Dernieres réponses</Text>
         <FlatList
           data={DUMMY_DATA}
           renderItem={renderItem}
@@ -131,6 +132,7 @@ const styles = StyleSheet.create({
   },
   actionButton: {
     alignItems: 'center',
+    
     padding: 10,
   },
   actionButtonText: {

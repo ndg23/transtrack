@@ -1,15 +1,13 @@
 // LoginScreen.tsx
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const LoginScreen: React.FC = () => {
-  const [email, setEmail] = useState('');
+  const [employeeId, setEmployeeId] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
-    // Implement login logic here
-    console.log('Login with:', email, password);
+    console.log('Login with:', employeeId, password);
   };
 
   return (
@@ -17,23 +15,16 @@ const LoginScreen: React.FC = () => {
       style={styles.container} 
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <View style={styles.logoContainer}>
-        <Icon name="account-circle" size={100} color="#2196F3" />
-        <Text style={styles.logoText}>MyApp</Text>
-      </View>
-      <View style={styles.inputContainer}>
-        <Icon name="email" size={24} color="#bdbdbd" style={styles.inputIcon} />
+      <Text style={styles.title}>TransTrack</Text>
+      <Text style={styles.subtitle}>by Transpay</Text>
+      <View style={styles.formContainer}>
         <TextInput
           style={styles.input}
-          placeholder="Email"
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
-          autoCapitalize="none"
+          placeholder="Employee ID"
+          value={employeeId}
+          onChangeText={setEmployeeId}
+          keyboardType="numeric"
         />
-      </View>
-      <View style={styles.inputContainer}>
-        <Icon name="lock" size={24} color="#bdbdbd" style={styles.inputIcon} />
         <TextInput
           style={styles.input}
           placeholder="Password"
@@ -41,12 +32,12 @@ const LoginScreen: React.FC = () => {
           onChangeText={setPassword}
           secureTextEntry
         />
+        <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+          <Text style={styles.loginButtonText}>Sign In</Text>
+        </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-        <Text style={styles.loginButtonText}>Login</Text>
-      </TouchableOpacity>
       <TouchableOpacity style={styles.forgotPassword}>
-        <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+        <Text style={styles.forgotPasswordText}>Forgot password?</Text>
       </TouchableOpacity>
     </KeyboardAvoidingView>
   );
@@ -56,52 +47,51 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    padding: 16,
-    backgroundColor: '#f5f5f5',
-  },
-  logoContainer: {
     alignItems: 'center',
+    backgroundColor: '#ffffff',
+    padding: 20,
+  },
+  title: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: '#007AFF',
+    marginBottom: 8,
+  },
+  subtitle: {
+    fontSize: 18,
+    color: '#666',
     marginBottom: 48,
   },
-  logoText: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#2196F3',
-    marginTop: 8,
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'white',
-    borderRadius: 8,
-    marginBottom: 16,
-    elevation: 2,
-  },
-  inputIcon: {
-    padding: 10,
+  formContainer: {
+    width: '100%',
+    maxWidth: 300,
   },
   input: {
-    flex: 1,
     height: 50,
-    paddingHorizontal: 8,
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 8,
+    paddingHorizontal: 16,
+    marginBottom: 16,
+    fontSize: 16,
   },
   loginButton: {
-    backgroundColor: '#2196F3',
+    backgroundColor: '#007AFF',
     padding: 16,
     borderRadius: 8,
     alignItems: 'center',
   },
   loginButtonText: {
     color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: 18,
+    fontWeight: '600',
   },
   forgotPassword: {
-    alignItems: 'center',
-    marginTop: 16,
+    marginTop: 24,
   },
   forgotPasswordText: {
-    color: '#2196F3',
+    color: '#007AFF',
+    fontSize: 16,
   },
 });
 

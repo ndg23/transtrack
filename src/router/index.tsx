@@ -7,7 +7,7 @@ import AppStack from './Appstack';
 const Routes = () => {
   const {signedIn} = useAuthContext();
 
-  return <>{signedIn ? <AppStack /> : <AuthStack />}</>;
+  return <>{!signedIn ? <AppStack /> : <AuthStack />}</>;
 };
 
 const SettingsButton = styled.TouchableOpacity`

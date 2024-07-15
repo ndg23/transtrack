@@ -5,6 +5,7 @@ import HomeScreen from '../../screen/home';
 import AddUserScreen from '../../screen/user/add-user';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import ScanScreen from '../../screen/scan';
+import HistoryScreen from '../../screen/history';
 
 const Stack = createNativeStackNavigator();
 
@@ -36,9 +37,16 @@ const AppStack = () => {
           component={ScanScreen} 
           options={{ title: 'Scan User' }}
         />
+
+<Stack.Screen 
+          name="History" 
+          component={HistoryScreen} 
+          options={{ title: 'History' }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
 };
 
 export default AppStack;
+
