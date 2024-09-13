@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: minio
+    env: docker
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: MINIO_ROOT_USER
+        sync: false
+      - key: MINIO_ROOT_PASSWORD
+        sync: false
+    disk:
+      name: data
+      mountPath: /data
+      sizeGB: 10
+    ports:
+      - port: 9000
+        useSSL: true
+      - port: 9090
+        useSSL: true
+    healthCheckPath: /minio/health/live
+    autoDeploy: false
