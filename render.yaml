@@ -12,10 +12,5 @@ services:
       name: data
       mountPath: /data
       sizeGB: 10
-    ports:
-      - port: 9000
-        useSSL: true
-      - port: 9090
-        useSSL: true
     healthCheckPath: /minio/health/live
     autoDeploy: false
